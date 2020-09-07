@@ -12,84 +12,87 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.beecode.util.AbstractEntity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity(name = "tb_product")
+@JsonIgnoreProperties
 public class Product extends AbstractEntity {
-	
-	@Column(name = "SKU", nullable = false)
-	private String SKU;
-	
-	@Column(name = "product_name", nullable = false, length = 200)
+
+	public static final String HOT_TYPE = "HOT";
+	public static final String NEW_TYPE = "NEW";
+	public static final String NORMAL_TYPE = "NORMAL";
+
+	@Column(name = "sku", nullable = false)
+	private String sku;
+
+	@Column(name = "name", nullable = false, length = 200)
 	private String name;
-	
-	@Column(name = "product_description", nullable = false, length = 250)
+
+	@Column(name = "description", nullable = false, length = 500)
 	private String description;
-	
-	@Column(name = "unit_price", nullable = false)
-	private double unit_price;
-	
-	@Column(name = "sale_price", nullable = false)
-	private double sale_price;
-	
+
+	@Column(name = "unitPrice", nullable = false)
+	private double unitPrice;
+
+	@Column(name = "salePrice", nullable = false)
+	private double salePrice;
+
 	@Column(name = "MSRP", nullable = true)
 	private double MSRP;
-	
-	@Column(name = "available_size", nullable = true)
-	private String available_size;
-	
-	@Column(name = "available_color", nullable = true)
-	private String available_color;
-	
+
+	@Column(name = "availableSize", nullable = true)
+	private String availableSize;
+
+	@Column(name = "availableColor", nullable = true)
+	private String availableColor;
+
 	@Column(name = "discount", nullable = true)
 	private double discount;
-	
-	@Column(name = "status_discount", nullable = false)
-	private boolean status_discount;
-	
+
+	@Column(name = "statusDiscount", nullable = false)
+	private boolean statusDiscount;
+
 	@Column(name = "unit_weight", nullable = true, length = 15)
 	private String unit_weight;
-	
+
+	@Column(name = "type", nullable = true, length = 15)
+	private String type;
+
 	@Column(name = "stock", nullable = false)
 	private int stock;
-	
+
 	@Column(name = "IVA", nullable = false)
 	private double IVA;
-	
+
 	@Column(name = "status", nullable = false)
 	private boolean status;
-	
-	@Column(name = "ranking", nullable = true)
-	private double ranking;
-	
+
 	@Column(name = "note", nullable = true, length = 300)
 	private String note;
+
+	@Column(name = "picturePrincipal", nullable = false)
+	private String picturePrincipal;
+
+	@Column(name = "domain", nullable = false)
+	private String domain;
+
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<ProductRating> productRating;
 	
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 	private List<Product_picture> product_picture;
-	
+
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_provider")
+	@JsonBackReference(value = "provider-product")
 	private Provider provider;
-	
+
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_category	")
+	@JsonBackReference(value = "category-product")
 	private Category category;
-	
-	public String getAvailable_size() {
-		return available_size;
-	}
 
-	public void setAvailable_size(String available_size) {
-		this.available_size = available_size;
-	}
-
-	public String getAvailable_color() {
-		return available_color;
-	}
-
-	public void setAvailable_color(String available_color) {
-		this.available_color = available_color;
-	}
 
 	public double getIVA() {
 		return IVA;
@@ -108,18 +111,18 @@ public class Product extends AbstractEntity {
 	}
 
 	public Product() {
-		this.SKU = UUID.randomUUID().toString();
+		this.sku = UUID.randomUUID().toString();
 		this.status = true;
-		this.status_discount = false;
+		this.statusDiscount = false;
 		this.discount = 0.0;
 	}
 
-	public String getSKU() {
-		return SKU;
+	public String getSku() {
+		return sku;
 	}
 
-	public void setSKU(String sKU) {
-		SKU = sKU;
+	public void setSku(String sku) {
+		this.sku = sku;
 	}
 
 	public String getName() {
@@ -138,20 +141,12 @@ public class Product extends AbstractEntity {
 		this.description = description;
 	}
 
-	public double getUnit_price() {
-		return unit_price;
+	public String getType() {
+		return type;
 	}
 
-	public void setUnit_price(double unit_price) {
-		this.unit_price = unit_price;
-	}
-
-	public double getSale_price() {
-		return sale_price;
-	}
-
-	public void setSale_price(double sale_price) {
-		this.sale_price = sale_price;
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public double getMSRP() {
@@ -168,14 +163,6 @@ public class Product extends AbstractEntity {
 
 	public void setDiscount(double discount) {
 		this.discount = discount;
-	}
-
-	public boolean isStatus_discount() {
-		return status_discount;
-	}
-
-	public void setStatus_discount(boolean status_discount) {
-		this.status_discount = status_discount;
 	}
 
 	public String getUnit_weight() {
@@ -202,14 +189,6 @@ public class Product extends AbstractEntity {
 		this.status = status;
 	}
 
-	public double getRanking() {
-		return ranking;
-	}
-
-	public void setRanking(double ranking) {
-		this.ranking = ranking;
-	}
-
 	public String getNote() {
 		return note;
 	}
@@ -233,4 +212,69 @@ public class Product extends AbstractEntity {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
+
+	public String getPicturePrincipal() {
+		return picturePrincipal;
+	}
+
+	public void setPicturePrincipal(String picturePrincipal) {
+		this.picturePrincipal = picturePrincipal;
+	}
+
+	public String getDomain() {
+		return domain;
+	}
+
+	public void setDomain(String domain) {
+		this.domain = domain;
+	}
+
+	public double getUnitPrice() {
+		return unitPrice;
+	}
+
+	public void setUnitPrice(double unitPrice) {
+		this.unitPrice = unitPrice;
+	}
+
+	public double getSalePrice() {
+		return salePrice;
+	}
+
+	public void setSalePrice(double salePrice) {
+		this.salePrice = salePrice;
+	}
+
+	public String getAvailableSize() {
+		return availableSize;
+	}
+
+	public void setAvailableSize(String availableSize) {
+		this.availableSize = availableSize;
+	}
+
+	public String getAvailableColor() {
+		return availableColor;
+	}
+
+	public void setAvailableColor(String availableColor) {
+		this.availableColor = availableColor;
+	}
+
+	public boolean isStatusDiscount() {
+		return statusDiscount;
+	}
+
+	public void setStatusDiscount(boolean statusDiscount) {
+		this.statusDiscount = statusDiscount;
+	}
+
+	public List<ProductRating> getProductRating() {
+		return productRating;
+	}
+
+	public void setProductRating(List<ProductRating> productRating) {
+		this.productRating = productRating;
+	}
+
 }

@@ -49,6 +49,7 @@ public class User extends AbstractEntity{
 				foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
 	private Set<Role> roles;
 	
+	
 	public User() {}
 
 	public String getEmail() {

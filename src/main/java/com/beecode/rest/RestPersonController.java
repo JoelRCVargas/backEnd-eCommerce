@@ -35,7 +35,7 @@ public class RestPersonController {
 	}
 	
 	//Register new User + Person embed
-	@PostMapping(value = "/register/person", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+	@PostMapping(value = "/public/register/person", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<Person> registerPerson(@RequestBody Person person) throws DuplicateMailException, InvalidMailException {
 		//return new ResponseEntity<Person>(personService.createPerson(person), HttpStatus.CREATED);
 		String email = person.getEmail();

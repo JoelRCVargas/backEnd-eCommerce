@@ -1,7 +1,5 @@
 package com.beecode.entity;
 
-import java.sql.Blob;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
@@ -12,49 +10,52 @@ public class Provider extends AbstractEntity {
 
 	@Column(name = "company_name", nullable = false, length = 100)
 	private String company_name;
-	
-	@Column(name = "contact_first_name", nullable = true , length = 100)
+
+	@Column(name = "contact_first_name", nullable = true, length = 100)
 	private String contact_first_name;
-	
+
 	@Column(name = "contact_last_name", nullable = true, length = 100)
 	private String contact_last_name;
-	
+
 	@Column(name = "address1", nullable = false, length = 150)
 	private String address1;
-	
+
 	@Column(name = "address2", nullable = true, length = 150)
 	private String address2;
-	
+
 	@Column(name = "city", nullable = false, length = 120)
 	private String city;
-	
+
 	@Column(name = "state", nullable = true, length = 150)
 	private String state;
-	
+
 	@Column(name = "postal_code", nullable = true, length = 20)
 	private String postal_code;
-	
+
 	@Column(name = "country", nullable = true, length = 150)
 	private String country;
-	
+
 	@Column(name = "phone", nullable = true, length = 20)
 	private String phone;
-	
+
 	@Column(name = "email", nullable = true, length = 120)
 	private String email;
-	
+
 	@Column(name = "URL", nullable = true)
 	private String URL;
-	
+
 	@Column(name = "payment_methods", nullable = true, length = 50)
 	private String payment_methods;
-	
+
 	@Column(name = "note", nullable = true, length = 300)
 	private String note;
-	
-	@Column(name = "logo", nullable = true)
-	private Blob logo;
-	
+
+	@Column(name = "logo_url", nullable = true)
+	private String logo_url;
+
+	@Column(name = "domain", nullable = true)
+	private String domain;
+
 	public Provider() {
 
 	}
@@ -171,11 +172,20 @@ public class Provider extends AbstractEntity {
 		this.note = note;
 	}
 
-	public Blob getLogo() {
-		return logo;
+	public String getLogo_url() {
+		return logo_url;
 	}
 
-	public void setLogo(Blob logo) {
-		this.logo = logo;
+	public void setLogo_url(String logo_url) {
+		this.logo_url = logo_url;
 	}
+
+	public String getDomain() {
+		return domain;
+	}
+
+	public void setDomain(String domain) {
+		this.domain = domain;
+	}
+
 }

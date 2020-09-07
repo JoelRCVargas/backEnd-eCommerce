@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import com.beecode.entity.MailProperties;
+import com.beecode.entity.Product;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -91,5 +92,18 @@ public class SendingMailService {
         return false;
 	}
 	
+	public boolean sendCampaignProduct(String toMail, Product product, String link) {
+		String subject = "Esto te puede interesar - BEESTORE";
+		String body = "";
+		try {
+			Template t = templates.getTemplate("product-campaign.ftl");
+			Map<String, String> map = new HashMap<>();
+			//map.put("NAME_USER", nameuser);
+			body = FreeMarkerTemplateUtils.processTemplateIntoString(t, map);
+		} catch (Exception e) {
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+		}
+		return senMail(toMail,subject,body);
+	}
 	
 }
